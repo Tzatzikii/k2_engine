@@ -9,8 +9,6 @@
 #include "shapes.hpp"
 namespace k2_engine{
 
-
-
 class WorldElement{
 public:
         virtual ~WorldElement() = default;
@@ -65,8 +63,11 @@ public:
         k2_math::Vec4<float>& ref_pos() { return pos; }
         k2_math::Vec4<float>& ref_rot() { return rot; }
         void rotate(float dx, float dy, float dz){
-                rot+=k2_math::Vec4<float>(dx, dy, dz);
-        
+                rot += k2_math::Vec4<float>(dx, dy, dz);
+        }
+        void translate(float dx, float dy, float dz){
+                k2_math::Vec4<float> d(dx, dy, dz);
+                pos +=  k2_math::Mat4<float>::rotation(rot) * d;
         }
 
         Camera(const Camera&) = delete;

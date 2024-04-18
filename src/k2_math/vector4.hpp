@@ -16,7 +16,7 @@ protected:
         T w;
 
 public:
-        Vec4(T x = 0, T y = 0, T z = 0, T w = 0)
+        Vec4(T x = 0, T y = 0, T z = 0, T w = 1)
                 :x(x), y(y), z(z), w(w){}
         
         const T get_x() const {return x;}

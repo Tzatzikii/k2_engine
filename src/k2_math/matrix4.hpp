@@ -94,7 +94,7 @@ public:
         }
 
         static Mat4<T> inverse_translation(const Mat4<T> m){
-                Mat4<T> inv;
+                Mat4<T> inv = m;
                 inv.matrix[0][3]*=-1;
                 inv.matrix[1][3]*=-1;
                 inv.matrix[2][3]*=-1;

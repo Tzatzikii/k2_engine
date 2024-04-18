@@ -46,6 +46,8 @@ void main_loop(){
                 else c = 0;
                 if(c == 'l') cam.rotate(0,0.1,0);
                 if(c == 'h') cam.rotate(0,-0.1,0);
+                if(c == 'w') cam.translate(0.0, 0.0, 0.4);
+                if(c == 's') cam.translate(0, 0, -0.4);
                 renderer.render();
         }
 }

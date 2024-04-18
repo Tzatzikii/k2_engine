@@ -21,7 +21,7 @@ void Renderer::view_transform(){
         const Camera& cam = scene->get_camera(); 
         Mat4<float> inv_cam_pos_mtx = Mat4<float>::inverse_translation(Mat4<float>::translation(cam.get_pos()));
         Mat4<float> inv_cam_rot_mtx = Mat4<float>::inverse_rotation(Mat4<float>::rotation(cam.get_rot()));
-        Mat4<float> inv_transform = inv_cam_pos_mtx*inv_cam_rot_mtx;
+        Mat4<float> inv_transform = inv_cam_rot_mtx*inv_cam_pos_mtx;
         for(Triangle& t : wiremesh){
                 t.transform(inv_transform);
         }
