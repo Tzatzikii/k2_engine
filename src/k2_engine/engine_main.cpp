@@ -33,6 +33,7 @@ void debug_fn(){
         scene.push_game_object(new StaticObject(new Quad(VF(20,0,0),VF(20,0,10),VF(20,10,10),VF(20,10,0))));
         renderer.render();
 }
+
 void main_loop(){
         GameSpace scene(0);
         Renderer renderer(scene, 60, 30);
@@ -48,6 +49,8 @@ void main_loop(){
                 if(c == 'h') cam.rotate(0,-0.1,0);
                 if(c == 'w') cam.translate(0.0, 0.0, 0.4);
                 if(c == 's') cam.translate(0, 0, -0.4);
+                if(c == 'a') cam.translate(-0.4,0,0);
+                if(c == 'd') cam.translate(0.4,0,0);
                 renderer.render();
         }
 }

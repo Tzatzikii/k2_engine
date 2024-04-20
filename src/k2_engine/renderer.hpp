@@ -29,6 +29,7 @@ public:
         void illuminate();
         void view_transform();
         void project();
+        void cull();
         void draw_wireframe(); //Debug miatt
         void rasterize();
         void draw();        
