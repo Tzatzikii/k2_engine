@@ -16,12 +16,11 @@ public:
 
 class Object : public WorldElement{
 protected:
-        Shape* shape;
+        Shape shape;
 
 public:
-        Object(Shape* shape) : shape(shape) {}
-        Shape get_shape() const  { std::cout << "aa\n"; return *shape;   }
-        ~Object(){delete shape;}
+        Object(const Shape& shape) : shape(shape) {}
+        Shape get_shape() const  { std::cout << "aa\n"; return shape;   }
 
 };
 
@@ -29,7 +28,7 @@ class DynamicObject : public Object{
         int tickrate;
 
 public:
-        DynamicObject(Shape* shape) : Object(shape){}
+        DynamicObject(const Shape& shape) : Object(shape){}
         virtual void step() = 0;
 
 };
@@ -38,7 +37,7 @@ public:
 class StaticObject : public Object{
 
 public:
-        StaticObject(Shape* shape) : Object(shape){}
+        StaticObject(const Shape& shape) : Object(shape){}
         
 };
 

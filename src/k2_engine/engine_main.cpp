@@ -30,7 +30,7 @@ void debug_fn(){
         Renderer renderer(scene, 60, 30);
         Camera* cam = new Camera(0,0,0,10,0,0,3.14/2);
         scene.push_game_object(cam);
-        scene.push_game_object(new StaticObject(new Quad(VF(20,0,0),VF(20,0,10),VF(20,10,10),VF(20,10,0))));
+        scene.push_game_object(new StaticObject(Shape::Quad(VF(20,0,0),VF(20,0,10),VF(20,10,10),VF(20,10,0))));
         renderer.render();
 }
 void main_loop(){
@@ -38,7 +38,7 @@ void main_loop(){
         Renderer renderer(scene, 60, 30);
         Camera& cam = *new Camera(0,0,0,10,0,0,0);
         scene.push_game_object(&cam);
-        scene.push_game_object(new StaticObject(new Quad(VF(20,0,0),VF(20,0,10),VF(20,10,10),VF(20,10,0))));
+        scene.push_game_object(new StaticObject(Shape::Quad(VF(20,0,0),VF(20,0,10),VF(20,10,10),VF(20,10,0))));
         char c = 0;
         char d = 0;
         while(c != 'q'){
@@ -46,8 +46,8 @@ void main_loop(){
                 else c = 0;
                 if(c == 'l') cam.rotate(0,0.1,0);
                 if(c == 'h') cam.rotate(0,-0.1,0);
-                if(c == 'w') cam.translate(0.0, 0.0, 0.4);
-                if(c == 's') cam.translate(0, 0, -0.4);
+                if(c == 'w') cam.translate(0,0,0.4);
+                if(c == 's') cam.translate(0,0,-0.4);
                 renderer.render();
         }
 }

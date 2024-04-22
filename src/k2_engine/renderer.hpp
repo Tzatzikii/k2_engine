@@ -27,6 +27,7 @@ public:
                   window_width(window_width), window_height(window_height){}
         void extract_wiremesh();
         void illuminate();
+        void cull();
         void view_transform();
         void project();
         void draw_wireframe(); //Debug miatt

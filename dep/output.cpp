@@ -59,7 +59,7 @@ OutputBuffer::OutputBuffer(size_t bufferwidth, size_t bufferheight):bufferwidth(
 
         for(int i = 0; i < bufferwidth; i++){
 
-                std::vector<char> column;
+                std::vector<colored_char> column;
                 buffer.push_back(column);
                 for(int j = 0; j < bufferheight; j++){
                 buffer[i].push_back(' ');
@@ -67,7 +67,7 @@ OutputBuffer::OutputBuffer(size_t bufferwidth, size_t bufferheight):bufferwidth(
                 }
         }
 }
-void OutputBuffer::set_buffer(size_t i, size_t j, char c){
+void OutputBuffer::set_buffer(size_t i, size_t j, colored_char c){
         assert(i >= 0 && i < bufferwidth);
         assert(j >= 0 && j < bufferheight);
         buffer[i][j] = c;
@@ -78,7 +78,7 @@ void OutputBuffer::push_to_stdout(){
         for(int i = 0; i < bufferwidth; i++){
 
                 for(int j = 0; j < bufferheight; j++){
-                        cout_xy<char>(i, j, buffer[i][j]);
+                        cout_xy<colored_char>(i, j, buffer[i][j]);
                 }
         }
 }

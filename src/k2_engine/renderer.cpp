@@ -27,6 +27,8 @@ void Renderer::view_transform(){
         }
 
 }
+void Renderer::cull(){
+}
 void Renderer::project(){
        Mat4<float> proj_mtx = Mat4<float>::projection(Vec4<float>((float)window_width, (float)window_height, scene->get_camera().get_radius())); 
        for( Triangle& t : wiremesh){

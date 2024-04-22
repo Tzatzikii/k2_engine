@@ -171,6 +171,19 @@ inline void cout_xy(size_t x, size_t y, const T c, bool duplicate = true, bool s
 
 }
 
+struct colored_char{
+        char c;
+        unsigned char r, g, b;
+
+        colored_char(const colored_char& cc) : c(cc.c), r(cc.r), g(cc.g), b(cc.b){}
+        colored_char(const char c) : c(c), r(208), g(207), b(204){}
+        friend std::ostream& operator<<(std::ostream& os, colored_char cc){
+                Cursor::set_color(cc.r, cc.g, cc.b);
+                os << cc.c;
+                return os;
+        }
+};
+
 /**
  * @brief Kiírás előtt bele lehet írni a megjelenítendő karaktereket,
  *        hogy sokkal simább legyen a megjelenítés
@@ -179,7 +192,7 @@ class OutputBuffer{
 
         size_t bufferwidth; //< A buffer szélessége
         size_t bufferheight; //< A buffer magassága
-        std::vector<std::vector<char>> buffer; //< Maga a kétdimenziós buffer tömb
+        std::vector<std::vector<colored_char>> buffer; //< Maga a kétdimenziós buffer tömb
 
 public:
         /**
@@ -205,7 +218,7 @@ public:
          * @param j - A sor indexe
          * @param c - A bufferbe irandó karakter
          */
-        void set_buffer(size_t i, size_t j, char c);
+        void set_buffer(size_t i, size_t j, colored_char c);
 
         /**
          * @brief Kiírja a buffer tartalmát a standart output-ra

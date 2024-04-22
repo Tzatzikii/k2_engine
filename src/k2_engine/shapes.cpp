@@ -18,5 +18,14 @@ void Shape::transform(Mat4<float> transformation_matrix){
                 t.transform(transformation_matrix);
         }
 }
+Shape Shape::Quad(k2_math::Vec4<float> A, k2_math::Vec4<float> B, k2_math::Vec4<float> C,
+k2_math::Vec4<float> D, float opacity){
+                Shape quad;
+                quad.components.push_back(Triangle(A, B, C));
+                quad.components.push_back(Triangle(C, D, A));
+                return quad;
+                
+}
+
 
 }//namespace

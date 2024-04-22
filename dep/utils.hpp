@@ -75,6 +75,7 @@ inline bool boundary(double min, double max, double val){
 
 }
 
+
 /**
  * @brief Két dimenzióra kiterjesztett Pythagoras-tétel
  * 
