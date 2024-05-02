@@ -8,6 +8,7 @@
 #include "../k2_math/matrix4.hpp"
 #include "../../dep/output.hpp"
 #include "../../dep/utils.hpp"
+#include "../k2_math/basic_algorithms.hpp"
 #include <vector>
 #include <iostream>
 
@@ -21,6 +22,9 @@ class Renderer{
         size_t window_width;
         size_t window_height;
 
+
+        void draw_line(const Vertex&, const Vertex&);
+
 public:
         Renderer(const GameSpace& scene, size_t window_width, size_t window_height)
                 : scene(&scene), output_buffer(outp::OutputBuffer(window_width, window_height)),
@@ -30,7 +34,6 @@ public:
         void cull();
         void view_transform();
         void project();
-        void cull();
         void draw_wireframe(); //Debug miatt
         void rasterize();
         void draw();        

@@ -36,21 +36,21 @@ void debug_fn(){
 
 void main_loop(){
         GameSpace scene(0);
-        Renderer renderer(scene, 60, 30);
+        Renderer renderer(scene, 80, 45);
         Camera& cam = *new Camera(0,0,0,10,0,0,0);
         scene.push_game_object(&cam);
-        scene.push_game_object(new StaticObject(Shape::Quad(VF(20,0,0),VF(20,0,10),VF(20,10,10),VF(20,10,0))));
-        char c = 0;
-        char d = 0;
-        while(c != 'q'){
-                if(d = outp::kbhit()) c = std::getchar();
-                else c = 0;
-                if(c == 'l') cam.rotate(0,0.1,0);
-                if(c == 'h') cam.rotate(0,-0.1,0);
-                if(c == 'w') cam.translate(0.0, 0.0, 0.4);
-                if(c == 's') cam.translate(0, 0, -0.4);
-                if(c == 'a') cam.translate(-0.4,0,0);
-                if(c == 'd') cam.translate(0.4,0,0);
+        scene.push_game_object(new StaticObject(Shape::Quad(VF(10,20,20),VF(10,0,20),VF(0,0,20),VF(0,20,20))));
+        InputHandler inputs(scene);
+        inputs.bind('w', move_forward);
+        inputs.bind('s', move_backward);
+        inputs.bind('a', move_left);
+        inputs.bind('d', move_right);
+        inputs.bind('l', rotate_right);
+        inputs.bind('j', rotate_left);
+        inputs.bind('i', look_up);
+        inputs.bind('k', look_down);
+        while(inputs.get_previous() != 'q'){
+                inputs.handle_input();
                 renderer.render();
         }
 }

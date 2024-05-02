@@ -4,6 +4,7 @@
 #include "../../dep/output.hpp"
 #include "../k2_math/vector4.hpp"
 #include "../k2_math/matrix4.hpp"
+#include "input_handler.hpp"
 #include "gamespace.hpp"
 #include "renderer.hpp"
 #include <vector>

@@ -27,25 +27,43 @@ void Renderer::view_transform(){
         }
 
 }
+
+
+
 void Renderer::cull(){
         float screen_z = scene->get_camera().get_radius();
-
         for( auto iter = wiremesh.begin(); iter != wiremesh.end(); iter++){
                 Triangle& t = *iter;
                 //sorbarendezés az alapján, hogy melyik lóg ki
-                Vertex* varr[3] = { &t.ref_v0(), &t.ref_v1(), &t.ref_v2() };
-
-                if( varr[0]->get_pos().get_z() > screen_z ){
-                        if(varr[1]->get_pos().get_z() < screen_z ) swap(varr[0], varr[1]);
-                        else if(varr[2]->get_pos().get_z() < screen_z ) swap(varr[0], varr[1]);
+                Vertex varr[3] = { t.ref_v0(), t.ref_v1(), t.ref_v2() };
+                if(varr[0].get_pos().get_z() < screen_z && varr[1].get_pos().get_z() < screen_z && varr[2].get_pos().get_z() < screen_z){
+                        wiremesh.erase(iter);
                 }
-                if( varr[2]->get_pos().get_z() < screen_z ) swap(varr[1], varr[2]);
+                else if(varr[0].get_pos().get_z() > screen_z && varr[1].get_pos().get_z() > screen_z && varr[2].get_pos().get_z() > screen_z) return;
+                if( varr[0].get_pos().get_z() > screen_z ){
+                        if(varr[1].get_pos().get_z() < screen_z ) swap(varr[0], varr[1]);
+                        else if(varr[2].get_pos().get_z() < screen_z ) swap(varr[0], varr[1]);
+                }
+                if( varr[2].get_pos().get_z() < screen_z ) swap(varr[1], varr[2]);
 
+                if( varr[1].get_pos().get_z() < screen_z){
+                        Vertex v0_v2 = {k2_math::intersect_h<float>(varr[0].get_pos(), varr[2].get_pos(), screen_z)};
+                        Vertex v0_v1 = {k2_math::intersect_h<float>(varr[0].get_pos(), varr[1].get_pos(), screen_z)};
+                        Triangle t1 = {varr[2], v0_v2, varr[1]};
+                        Triangle t2 = {v0_v2, v0_v1, varr[1]};
+                        *iter = t2;
+                }
+                else{
+                        Vertex v0_v2 = {intersect_h<float>(varr[0].get_pos(), varr[2].get_pos(), screen_z)};
+                        Vertex v0_v1 = {intersect_h<float>(varr[0].get_pos(), varr[1].get_pos(), screen_z)};
+                        Triangle t = { varr[2], v0_v1, v0_v2 };
+                        *iter = t; 
+                }
         }        
 }
 void Renderer::project(){
-        Mat4<float> proj_mtx = Mat4<float>::projection(Vec4<float>((float)window_width, (float)window_height, scene->get_camera().get_radius())); 
-        for( Triangle& t : wiremesh){
+       Mat4<float> proj_mtx = Mat4<float>::projection(Vec4<float>((float)window_width, (float)window_height, scene->get_camera().get_radius())); 
+       for( Triangle& t : wiremesh){
                 t.transform(proj_mtx);
 
                 Mat4<float> fw_divide = Mat4<float>()/t.get_v0().get_pos().get_z();
@@ -56,6 +74,56 @@ void Renderer::project(){
 
                 fw_divide = Mat4<float>()/t.get_v2().get_pos().get_z();
                 t.ref_v2().set_pos(fw_divide*t.get_v2().get_pos());
+
+               
+       }
+}
+
+void Renderer::draw_line(const Vertex& v0, const Vertex& v1){
+
+        float x0 = v0.get_x();
+        float x1 = v1.get_x();
+        float y0 = v0.get_y();
+        float y1 = v1.get_y();
+        float dx = x1 - x0;
+        float dy = y1 - y0;
+        if(std::abs(dx) > std::abs(dy)){
+                if(x1 < x0){
+                        swap(x1, x0);
+                        swap(y1, y0);
+                }
+                float m = dy/dx;
+                while(x0 < x1){
+                        if(boundary(0, window_width-1, std::round(x0)) && boundary(0, window_height-1, std::round(y0))){
+                                output_buffer.set_buffer(std::round(x0), std::round(y0), '#');
+                        }
+                        y0+=m;
+                        x0++;
+                }
+        }
+        else{
+                if(y1 < y0){ 
+                        swap(y1, y0);
+                        swap(x1, x0);
+                }
+                float m = dx/dy;
+                while(y0 < y1){
+                        if(boundary(0, window_width-1, std::round(x0)) && boundary(0, window_height-1, std::round(y0))){
+                                output_buffer.set_buffer(std::round(x0), std::round(y0), '#');
+                        }
+                        x0+=m;
+                        y0++;
+                }
+        }
+        
+
+
+}
+void Renderer::draw_wireframe(){
+        for(const Triangle& t : wiremesh){
+               draw_line(t.get_v0(), t.get_v1());
+               draw_line(t.get_v1(), t.get_v2());
+               draw_line(t.get_v2(), t.get_v0());
         }
 }
 void Renderer::draw(){
@@ -67,7 +135,9 @@ void Renderer::draw(){
 void Renderer::render(){
         extract_wiremesh();
         view_transform();
+        //cull();
         project();
+        draw_wireframe();
         draw();
 }
 }//namespace

@@ -66,7 +66,7 @@ public:
         }
         void translate(float dx, float dy, float dz){
                 k2_math::Vec4<float> d(dx, dy, dz);
-                pos +=  k2_math::Mat4<float>::rotation(rot) * d;
+                pos +=  k2_math::Mat4<float>::rotation(0, rot.get_y(), 0) * d;
         }
 
         Camera(const Camera&) = delete;
@@ -74,7 +74,10 @@ public:
 };
 
 
+class Ground : public WorldElement{
 
-}
+};
+
+}//namesoace
 
 #endif //K2_ENGINE_GAME_OBJECTS_HPP_

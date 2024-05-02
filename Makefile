@@ -14,13 +14,13 @@ TEST = ./test
 OBJS = main.o \
 	engine_main.o world_elements.o gamespace.o\
 	lightsources.o renderer.o shapes.o \
-	triangle.o vertex.o \
+	triangle.o vertex.o input_handler.o\
 	output.o \
 	logics_module_test.o
 
 HDRS = $(ENGINE)/engine_main.hpp $(ENGINE)/world_elements.hpp $(ENGINE)/gamespace.hpp\
 	$(ENGINE)/lightsources.hpp $(ENGINE)/renderer.hpp $(ENGINE)/shapes.hpp \
-	$(ENGINE)/triangle.hpp $(ENGINE)/vertex.hpp \
+	$(ENGINE)/triangle.hpp $(ENGINE)/vertex.hpp $(ENGINE)/input_handler.hpp \
 	$(DEP)/output.hpp $(DEP)/utils.hpp 
 
 $(TARGET): $(OBJS) $(HEADERS)
@@ -53,6 +53,9 @@ triangle.o: $(ENGINE)/triangle.cpp $(ENGINE)/triangle.hpp
 
 vertex.o: $(ENGINE)/vertex.cpp $(ENGINE)/vertex.hpp
 	$(CC) -g -c $(ENGINE)/vertex.cpp
+
+input_handler.o: $(ENGINE)/input_handler.cpp $(ENGINE)/input_handler.hpp
+	$(CC) -g -c $(ENGINE)/input_handler.cpp
 
 output.o: $(DEP)/output.cpp $(DEP)/output.hpp
 	$(CC) -g -c $(DEP)/output.cpp

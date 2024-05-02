@@ -32,6 +32,10 @@ public:
         k2_math::Vec4<unsigned char>& ref_rgba() { return rgba; }
         void set_rgba(const k2_math::Vec4<unsigned char>& new_rgba) { rgba = new_rgba; }
 
+        float get_x() const{ return pos.get_x(); }
+        float get_y() const{ return pos.get_y(); }
+        float get_z() const{ return pos.get_z(); }
+
 };
 }
 

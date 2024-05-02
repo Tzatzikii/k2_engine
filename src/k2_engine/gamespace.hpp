@@ -17,9 +17,9 @@ class GameSpace{
 public:
         explicit GameSpace(float gravity): gravity(gravity){}
         void push_game_object(WorldElement* obj);
-        void init_gamespace();
         
         const Camera& get_camera() const { return *camera; }
+        Camera* get_camera_ptr() { return camera; }
         std::vector<WorldElement*> get_world_elements() const { return world_elements; }
         std::vector<Object*> get_objects() const { return objects; }
         ~GameSpace(){

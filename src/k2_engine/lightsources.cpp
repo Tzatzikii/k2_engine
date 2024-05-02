@@ -12,5 +12,5 @@ void SphericalLight::transform(Mat4<float> transform_mtx){
 void DirectionalLight::transform(Mat4<float> transform_mtx){
         dir = transform_mtx*dir;
 } 
-
+        
 }//namespace
