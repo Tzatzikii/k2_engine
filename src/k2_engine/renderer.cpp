@@ -44,7 +44,7 @@ void Renderer::cull(){
                         i--;
                         continue;
                 }
-                else if(varr[0].get_pos().get_z() > 0 && varr[1].get_pos().get_z() > 0 && varr[2].get_pos().get_z() > 0) return;
+                else if(varr[0].get_pos().get_z() > 0 && varr[1].get_pos().get_z() > 0 && varr[2].get_pos().get_z() > 0) continue;
                 if( varr[0].get_pos().get_z() > 0 ){
                         if(varr[1].get_pos().get_z() <= 0 ) swap(varr[0], varr[1]);
                         else if(varr[2].get_pos().get_z() <= 0 ) swap(varr[0], varr[2]);

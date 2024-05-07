@@ -69,6 +69,14 @@ public:
         Vec4<T> operator/=(T n){
                 return (*this)/n;
         }
+
+        Vec4<T>& operator-(){
+                x = -x;
+                y = -y;
+                z = -z;
+                w = -w;
+                return *this;
+        }
         
 };
 

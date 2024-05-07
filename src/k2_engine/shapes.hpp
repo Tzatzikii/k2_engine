@@ -16,6 +16,7 @@ public:
 
         static Shape Quad(k2_math::Vec4<float>, k2_math::Vec4<float>, k2_math::Vec4<float>, k2_math::Vec4<float>,
         float opacity = 0); 
+        static Shape Cube(k2_math::Vec4<float> centre, float size);
 };
 
 }//namespace

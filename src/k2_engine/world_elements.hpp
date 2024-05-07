@@ -51,12 +51,16 @@ class Camera : public WorldElement{
         float radius;
         k2_math::Vec4<float> pos;
         k2_math::Vec4<float> rot;
+        float velocity;
+        bool in_motion = false;
         
 public:
         Camera(float x = 0, float y = 0, float z = 0, float r = 10, float rotx = 0, float rotz = 0, float roty = 0)
                 : pos(k2_math::Vec4<float>(x, y, z)), rot(k2_math::Vec4<float>(rotx, roty, rotz)), radius(r){}
 
         float get_radius() const { return radius; }
+        void set_motion(bool m) { in_motion = m; }
+        bool get_motion() const { return in_motion; }
         k2_math::Vec4<float> get_rot() const{ return rot; }
         k2_math::Vec4<float> get_pos() const{ return pos; }
         k2_math::Vec4<float>& ref_pos() { return pos; }
@@ -69,14 +73,11 @@ public:
                 pos +=  k2_math::Mat4<float>::rotation(0, rot.get_y(), 0) * d;
         }
 
+
         Camera(const Camera&) = delete;
         Camera& operator=(const Camera&) = delete;
 };
 
-
-class Ground : public WorldElement{
-
-};
 
 }//namesoace
 

@@ -8,14 +8,17 @@ namespace k2_engine{
 
 class GameSpace{
         float gravity;
+        float groundy;
+        float camera_height;
         Camera* camera;
         std::vector<WorldElement*> world_elements;
         std::vector<LightSource*> lightsources;
         std::vector<Object*> objects;
         std::vector<DynamicObject*> dynamic_objects;
         std::vector<StaticObject*> static_objects;
+
 public:
-        explicit GameSpace(float gravity): gravity(gravity){}
+        explicit GameSpace(float gravity, float camera_height = 5, float goundy = 0): gravity(gravity), groundy(groundy), camera_height(camera_height){}
         void push_game_object(WorldElement* obj);
         
         const Camera& get_camera() const { return *camera; }
@@ -25,6 +28,7 @@ public:
         ~GameSpace(){
                 for( WorldElement* obj : world_elements ) delete obj;
         }
+        void gravitate();
 
 };
 

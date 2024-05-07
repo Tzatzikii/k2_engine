@@ -19,4 +19,13 @@ void GameSpace::push_game_object(WorldElement* obj){
         }
 }
 
+void GameSpace::gravitate(){
+        if(camera->get_pos().get_y() > groundy + camera_height){
+                camera->translate(0, -0.1, 0);
+                camera->set_motion(true);
+        }
+        else{
+                camera->set_motion(false);
+        }
+}
 }//namespace
