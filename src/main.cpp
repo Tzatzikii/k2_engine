@@ -9,7 +9,6 @@
 using k2_engine::start_main;
 
 int main(){
-
         #ifdef CPORTA 
         start_gtest();
         #endif

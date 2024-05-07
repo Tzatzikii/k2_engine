@@ -25,14 +25,12 @@
 #include <cstring>
 #include <vector>
 
-/**
- * TODO konstansokba át kell őket írni
- * 
- */
-#define ARROW_LEFT 37
-#define ARROW_UP 38
-#define ARROW_RIGHT 39
-#define ARROW_DOWN 40
+enum special_keys{
+        ARROW_LEFT = 37,
+        ARROW_UP = 38,
+        ARROW_RIGHT = 39,
+        ARROW_DOWN = 40
+};
 
 namespace outp{
 

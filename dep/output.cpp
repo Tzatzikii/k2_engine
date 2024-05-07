@@ -57,11 +57,11 @@ void rgba_pixel(unsigned char R, unsigned char B, unsigned char G, unsigned char
 }
 OutputBuffer::OutputBuffer(size_t bufferwidth, size_t bufferheight):bufferwidth(bufferwidth),bufferheight(bufferheight){
 
-        for(int i = 0; i < bufferwidth; i++){
+        for(size_t i = 0; i < bufferwidth; i++){
 
                 std::vector<colored_char> column;
                 buffer.push_back(column);
-                for(int j = 0; j < bufferheight; j++){
+                for(size_t j = 0; j < bufferheight; j++){
                 buffer[i].push_back(' ');
 
                 }
@@ -75,18 +75,18 @@ void OutputBuffer::set_buffer(size_t i, size_t j, colored_char c){
 
 void OutputBuffer::push_to_stdout(){
 
-        for(int i = 0; i < bufferwidth; i++){
+        for(size_t i = 0; i < bufferwidth; i++){
 
-                for(int j = 0; j < bufferheight; j++){
+                for(size_t j = 0; j < bufferheight; j++){
                         cout_xy<colored_char>(i, j, buffer[i][j]);
                 }
         }
 }
 void OutputBuffer::clear_buffer(){
 
-        for(int i = 0; i < bufferwidth; i++){
+        for(size_t i = 0; i < bufferwidth; i++){
 
-                for(int j = 0; j < bufferheight; j++){
+                for(size_t j = 0; j < bufferheight; j++){
                         buffer[i][j] = ' ';
                 }
         }

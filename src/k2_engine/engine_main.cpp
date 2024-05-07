@@ -36,8 +36,8 @@ void debug_fn(){
 
 void main_loop(){
         GameSpace scene(0);
-        Renderer renderer(scene, 80, 45);
-        Camera& cam = *new Camera(0,0,0,10,0,0,0);
+        Renderer renderer(scene, 90, 40);
+        Camera& cam = *new Camera(0,5,0,20,0,0,0);
         scene.push_game_object(&cam);
         scene.push_game_object(new StaticObject(Shape::Quad(VF(10,20,20),VF(10,0,20),VF(0,0,20),VF(0,20,20))));
         InputHandler inputs(scene);
@@ -47,8 +47,8 @@ void main_loop(){
         inputs.bind('d', move_right);
         inputs.bind('l', rotate_right);
         inputs.bind('j', rotate_left);
-        inputs.bind('i', look_up);
-        inputs.bind('k', look_down);
+        inputs.bind('k', look_up);
+        inputs.bind('i', look_down);
         while(inputs.get_previous() != 'q'){
                 inputs.handle_input();
                 renderer.render();

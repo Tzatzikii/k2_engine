@@ -20,7 +20,9 @@ void Renderer::illuminate(){
 void Renderer::view_transform(){
         const Camera& cam = scene->get_camera(); 
         Mat4<float> inv_cam_pos_mtx = Mat4<float>::inverse_translation(Mat4<float>::translation(cam.get_pos()));
-        Mat4<float> inv_cam_rot_mtx = Mat4<float>::inverse_rotation(Mat4<float>::rotation(cam.get_rot()));
+        Mat4<float> rot_x = Mat4<float>::rotation_x(cam.get_rot().get_x());
+        Mat4<float> rot_y = Mat4<float>::rotation_y(cam.get_rot().get_y());
+        Mat4<float> inv_cam_rot_mtx = Mat4<float>::inverse_rotation(rot_y*rot_x);
         Mat4<float> inv_transform = inv_cam_rot_mtx*inv_cam_pos_mtx;
         for(Triangle& t : wiremesh){
                 t.transform(inv_transform);
@@ -32,34 +34,43 @@ void Renderer::view_transform(){
 
 void Renderer::cull(){
         float screen_z = scene->get_camera().get_radius();
-        for( auto iter = wiremesh.begin(); iter != wiremesh.end(); iter++){
-                Triangle& t = *iter;
+        std::vector<Triangle> new_triangles;
+        for(int i = 0; i < wiremesh.size(); i++){
+                Triangle& t = wiremesh[i];
                 //sorbarendezés az alapján, hogy melyik lóg ki
                 Vertex varr[3] = { t.ref_v0(), t.ref_v1(), t.ref_v2() };
-                if(varr[0].get_pos().get_z() < screen_z && varr[1].get_pos().get_z() < screen_z && varr[2].get_pos().get_z() < screen_z){
-                        wiremesh.erase(iter);
+                if(varr[0].get_pos().get_z() <= 0 && varr[1].get_pos().get_z() <= 0 && varr[2].get_pos().get_z() <= 0){
+                        wiremesh.erase(wiremesh.begin() + i) ;
+                        i--;
+                        continue;
                 }
-                else if(varr[0].get_pos().get_z() > screen_z && varr[1].get_pos().get_z() > screen_z && varr[2].get_pos().get_z() > screen_z) return;
-                if( varr[0].get_pos().get_z() > screen_z ){
-                        if(varr[1].get_pos().get_z() < screen_z ) swap(varr[0], varr[1]);
-                        else if(varr[2].get_pos().get_z() < screen_z ) swap(varr[0], varr[1]);
+                else if(varr[0].get_pos().get_z() > 0 && varr[1].get_pos().get_z() > 0 && varr[2].get_pos().get_z() > 0) return;
+                if( varr[0].get_pos().get_z() > 0 ){
+                        if(varr[1].get_pos().get_z() <= 0 ) swap(varr[0], varr[1]);
+                        else if(varr[2].get_pos().get_z() <= 0 ) swap(varr[0], varr[2]);
                 }
-                if( varr[2].get_pos().get_z() < screen_z ) swap(varr[1], varr[2]);
+                if( varr[2].get_pos().get_z() <= 0 ) swap(varr[1], varr[2]);
 
-                if( varr[1].get_pos().get_z() < screen_z){
-                        Vertex v0_v2 = {k2_math::intersect_h<float>(varr[0].get_pos(), varr[2].get_pos(), screen_z)};
-                        Vertex v0_v1 = {k2_math::intersect_h<float>(varr[0].get_pos(), varr[1].get_pos(), screen_z)};
-                        Triangle t1 = {varr[2], v0_v2, varr[1]};
-                        Triangle t2 = {v0_v2, v0_v1, varr[1]};
-                        *iter = t2;
+                if( varr[1].get_pos().get_z() <= 0){
+                        Vertex v2_v0 = {intersect_line<float>(varr[2].get_pos(), varr[0].get_pos(), 1)};
+                        Vertex v2_v1 = {intersect_line<float>(varr[2].get_pos(), varr[1].get_pos(), 1)};
+                        Triangle t0(v2_v0, v2_v1, varr[2]);
+                        wiremesh.erase(wiremesh.begin() + i);
+                        new_triangles.push_back(t0);
+                        i--;
                 }
                 else{
-                        Vertex v0_v2 = {intersect_h<float>(varr[0].get_pos(), varr[2].get_pos(), screen_z)};
-                        Vertex v0_v1 = {intersect_h<float>(varr[0].get_pos(), varr[1].get_pos(), screen_z)};
-                        Triangle t = { varr[2], v0_v1, v0_v2 };
-                        *iter = t; 
+                        Vertex v0_v2 = {intersect_line<float>(varr[0].get_pos(), varr[2].get_pos(), 1)};
+                        Vertex v0_v1 = {intersect_line<float>(varr[0].get_pos(), varr[1].get_pos(), 1)};
+                        Triangle t0(v0_v2, varr[1], v0_v1);
+                        Triangle t1(varr[1], varr[2], v0_v2);
+                        wiremesh.erase(wiremesh.begin() + i);
+                        new_triangles.push_back(t0);
+                        new_triangles.push_back(t1);
+                        i--;
                 }
         }        
+        wiremesh.insert(wiremesh.begin(), new_triangles.begin(), new_triangles.end());
 }
 void Renderer::project(){
        Mat4<float> proj_mtx = Mat4<float>::projection(Vec4<float>((float)window_width, (float)window_height, scene->get_camera().get_radius())); 
@@ -94,8 +105,8 @@ void Renderer::draw_line(const Vertex& v0, const Vertex& v1){
                 }
                 float m = dy/dx;
                 while(x0 < x1){
-                        if(boundary(0, window_width-1, std::round(x0)) && boundary(0, window_height-1, std::round(y0))){
-                                output_buffer.set_buffer(std::round(x0), std::round(y0), '#');
+                        if(boundary(0, window_width - 1, window_width - std::round(x0)) && boundary(0, window_height - 1, window_height - std::round(y0))){
+                                output_buffer.set_buffer(window_width - std::round(x0), window_height - std::round(y0), '#');
                         }
                         y0+=m;
                         x0++;
@@ -108,8 +119,8 @@ void Renderer::draw_line(const Vertex& v0, const Vertex& v1){
                 }
                 float m = dx/dy;
                 while(y0 < y1){
-                        if(boundary(0, window_width-1, std::round(x0)) && boundary(0, window_height-1, std::round(y0))){
-                                output_buffer.set_buffer(std::round(x0), std::round(y0), '#');
+                        if(boundary(0, window_width - 1, window_width - std::round(x0)) && boundary(0, window_height - 1, window_height - std::round(y0))){
+                                output_buffer.set_buffer(window_width - std::round(x0), window_height - std::round(y0), '#');
                         }
                         x0+=m;
                         y0++;
@@ -135,7 +146,7 @@ void Renderer::draw(){
 void Renderer::render(){
         extract_wiremesh();
         view_transform();
-        //cull();
+        cull();
         project();
         draw_wireframe();
         draw();

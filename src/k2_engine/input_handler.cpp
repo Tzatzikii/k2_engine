@@ -19,16 +19,16 @@ void InputHandler::handle_input(){
                         cam->translate(0.0, 0.0, -0.4);
                 break;
                 case move_left:
-                        cam->translate(-0.4, 0.0, 0.0);
-                break;
-                case move_right:
                         cam->translate(0.4, 0.0, 0.0);
                 break;
+                case move_right:
+                        cam->translate(-0.4, 0.0, 0.0);
+                break;
                 case rotate_left:
-                        cam->rotate(0.0, -0.1, 0.0);
+                        cam->rotate(0.0, 0.1, 0.0);
                 break;
                 case rotate_right:
-                        cam->rotate(0.0, 0.1, 0.0);
+                        cam->rotate(0.0, -0.1, 0.0);
                 break;
                 case look_up:
                         cam->rotate(0.1, 0.0, 0.0);
