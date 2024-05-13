@@ -27,6 +27,7 @@ public:
         void set_y(T new_y) {y = new_y;}
         void set_z(T new_z) {z = new_z;}
         void set_w(T new_w) {w = new_w;}
+        void len3d() { return std::cbrt(x*x*x + y*y*y + z*z*z);}
         Vec4<T> operator+(const Vec4<T>& rhs_v) const{
                 return Vec4<T>(x+rhs_v.x, y+rhs_v.y, z+rhs_v.z, w+rhs_v.w);
         }

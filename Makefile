@@ -9,19 +9,25 @@ DEP = $(ROOT)/dep
 SRC = $(ROOT)/src
 ENGINE = $(SRC)/k2_engine
 MATH = $(SRC)/k2_math
+CREATOR = $(ENGINE)/scene_creator
 TEST = ./test
 
 OBJS = main.o \
 	engine_main.o world_elements.o gamespace.o\
 	lightsources.o renderer.o shapes.o \
 	triangle.o vertex.o input_handler.o\
+	menu.o \
 	output.o \
-	logics_module_test.o
+	logics_module_test.o \
+	scene.o
 
 HDRS = $(ENGINE)/engine_main.hpp $(ENGINE)/world_elements.hpp $(ENGINE)/gamespace.hpp\
 	$(ENGINE)/lightsources.hpp $(ENGINE)/renderer.hpp $(ENGINE)/shapes.hpp \
 	$(ENGINE)/triangle.hpp $(ENGINE)/vertex.hpp $(ENGINE)/input_handler.hpp \
-	$(DEP)/output.hpp $(DEP)/utils.hpp 
+	$(ENGINE)/menu.hpp \
+	$(DEP)/output.hpp $(DEP)/utils.hpp \
+	$(CREATOR)/scene.hpp
+
 
 $(TARGET): $(OBJS) $(HEADERS)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) 
@@ -57,11 +63,19 @@ vertex.o: $(ENGINE)/vertex.cpp $(ENGINE)/vertex.hpp
 input_handler.o: $(ENGINE)/input_handler.cpp $(ENGINE)/input_handler.hpp
 	$(CC) -g -c $(ENGINE)/input_handler.cpp
 
+menu.o: $(ENGINE)/menu.cpp $(ENGINE)/menu.hpp
+	$(CC) -g -c $(ENGINE)/menu.cpp
+
 output.o: $(DEP)/output.cpp $(DEP)/output.hpp
 	$(CC) -g -c $(DEP)/output.cpp
 
 logics_module_test.o: $(TEST)/logics_module_test.cpp
 	$(CC) -g -c $(TEST)/logics_module_test.cpp	
+
+scene.o: $(CREATOR)/scene.cpp
+	$(CC) -g -c $(CREATOR)/scene.cpp
+
+
 
 clean: 
 	-rm $(TARGET) $(OBJS)

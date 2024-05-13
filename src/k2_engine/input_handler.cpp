@@ -12,19 +12,22 @@ void InputHandler::handle_input(){
         control action = binds.find(current)->second;
         Camera* cam = scene->get_camera_ptr();
 
-        bool m = cam->get_motion();
         switch(action){
                 case move_forward:
-                        if(!m) cam->translate(0.0, 0.0, 0.4);
+                        cam->translate(0.0, 0.0, 0.4);
+                        //cam->move(0.0, 0.0, 0.4);
                 break;
                 case move_backward:
-                        if(!m) cam->translate(0.0, 0.0, -0.4);
+                        cam->translate(0.0, 0.0, -0.4);
+                        //cam->move(0.0, 0.0, -0.4);
                 break;
                 case move_left:
-                        if(!m) cam->translate(0.4, 0.0, 0.0);
+                        cam->translate(0.4, 0, 0);
+                        //cam->move(0.4, 0.0, 0.0);
                 break;
                 case move_right:
-                        if(!m) cam->translate(-0.4, 0.0, 0.0);
+                        cam->translate(-0.4, 0, 0);
+                        //cam->move(-0.4, 0.0, 0.0);
                 break;
                 case rotate_left:
                         cam->rotate(0.0, 0.1, 0.0);
@@ -39,7 +42,8 @@ void InputHandler::handle_input(){
                         cam->rotate(-0.1, 0.0, 0.0);
                 break;
                 case jump:
-                        if(!m) cam->translate(0.0, 4.0, 0.0);
+                        cam->translate(0, 4, 0);
+                        //cam->move(0.0, 4.0, 0.0);
                 break;
                 default:
                 break;

@@ -11,8 +11,8 @@ class Triangle{
         Vertex v2;
         
 public:
-        Triangle(const k2_math::Vec4<float> A, k2_math::Vec4<float> B, k2_math::Vec4<float> C)
-                : v0(Vertex(A)), v1(Vertex(B)), v2(Vertex(C)){}
+        Triangle(const k2_math::Vec4<float> A, k2_math::Vec4<float> B, k2_math::Vec4<float> C, k2_math::Vec4<unsigned char> color)
+                : v0(Vertex(A, color)), v1(Vertex(B, color)), v2(Vertex(C, color)){}
         Triangle(const Vertex& v0, const Vertex& v1, const Vertex& v2)
                 : v0(v0), v1(v1), v2(v2){}
         Triangle(const Triangle& t)

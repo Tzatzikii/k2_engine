@@ -14,9 +14,8 @@ public:
         std::vector<Triangle> get_components() const { return components; }
         void transform(k2_math::Mat4<float> transformation_matrix);
 
-        static Shape Quad(k2_math::Vec4<float>, k2_math::Vec4<float>, k2_math::Vec4<float>, k2_math::Vec4<float>,
-        float opacity = 0); 
-        static Shape Cube(k2_math::Vec4<float> centre, float size);
+        static Shape Quad(k2_math::Vec4<float> centre, k2_math::Vec4<float> orientation, float size, k2_math::Vec4<unsigned char> color = {255, 255, 255}, float opacity = 1); 
+        static Shape Cube(k2_math::Vec4<float> centre, k2_math::Vec4<float> orientation, float size, k2_math::Vec4<unsigned char> color = {255, 255, 255}, float opacity = 1);
 };
 
 }//namespace

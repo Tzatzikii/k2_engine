@@ -18,8 +18,8 @@ class GameSpace{
         std::vector<StaticObject*> static_objects;
 
 public:
-        explicit GameSpace(float gravity, float camera_height = 5, float goundy = 0): gravity(gravity), groundy(groundy), camera_height(camera_height){}
-        void push_game_object(WorldElement* obj);
+        explicit GameSpace(float gravity = 10, float camera_height = 0, float goundy = 0);
+        void add(WorldElement* obj);
         
         const Camera& get_camera() const { return *camera; }
         Camera* get_camera_ptr() { return camera; }
@@ -29,6 +29,7 @@ public:
                 for( WorldElement* obj : world_elements ) delete obj;
         }
         void gravitate();
+        void tick();
 
 };
 

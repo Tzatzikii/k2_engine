@@ -126,9 +126,6 @@ void Renderer::draw_line(const Vertex& v0, const Vertex& v1){
                         y0++;
                 }
         }
-        
-
-
 }
 void Renderer::draw_wireframe(){
         for(const Triangle& t : wiremesh){

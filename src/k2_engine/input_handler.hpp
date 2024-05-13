@@ -37,6 +37,7 @@ public:
         char get_previous() const { return previous; }
         size_t get_queue_size() const { return queue; }
         void bind(char key, control action);
+        void unbind(char key);
         void handle_input();
 };
 } // namespace

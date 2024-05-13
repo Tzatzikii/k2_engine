@@ -7,6 +7,8 @@
 #include "input_handler.hpp"
 #include "gamespace.hpp"
 #include "renderer.hpp"
+#include "scene_creator/scene.hpp"
+#include "menu.hpp"
 #include <vector>
 #include <cstring>
 

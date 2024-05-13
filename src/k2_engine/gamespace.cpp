@@ -2,11 +2,13 @@
 
 namespace k2_engine{
 
-void GameSpace::push_game_object(WorldElement* obj){
-        if(!!dynamic_cast<Camera*>(obj))
-                camera = dynamic_cast<Camera*>(obj);
-        
-        else if(!!dynamic_cast<LightSource*>(obj))
+GameSpace::GameSpace(float gravity, float camera_height, float goundy): gravity(gravity), camera_height(camera_height), groundy(groundy){
+       camera = new Camera(0, groundy + camera_height, 0);
+       this->groundy = 0; 
+}
+
+void GameSpace::add(WorldElement* obj){
+        if(!!dynamic_cast<LightSource*>(obj))
                 lightsources.push_back(dynamic_cast<LightSource*>(obj));
 
         else if(!!dynamic_cast<DynamicObject*>(obj)){
@@ -20,12 +22,12 @@ void GameSpace::push_game_object(WorldElement* obj){
 }
 
 void GameSpace::gravitate(){
-        if(camera->get_pos().get_y() > groundy + camera_height){
-                camera->translate(0, -0.1, 0);
-                camera->set_motion(true);
-        }
-        else{
-                camera->set_motion(false);
-        }
+        if(camera->get_pos().get_y() > groundy + camera_height) camera->translate(k2_math::Vec4<float>(0, -0.1, 0));
+        //camera->move(0.0, -0.1, 0.0);
+}
+
+void GameSpace::tick(){
+        if(camera)
+        camera->tick(groundy);
 }
 }//namespace

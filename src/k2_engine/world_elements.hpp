@@ -20,12 +20,13 @@ protected:
 
 public:
         Object(const Shape& shape) : shape(shape) {}
-        Shape get_shape() const  { std::cout << "aa\n"; return shape;   }
+        Shape get_shape() const  { return shape;   }
 
 };
 
 class DynamicObject : public Object{
-        int tickrate;
+        float tickrate;
+        k2_math::Vec4<float> velocity; 
 
 public:
         DynamicObject(const Shape& shape) : Object(shape){}
@@ -51,16 +52,13 @@ class Camera : public WorldElement{
         float radius;
         k2_math::Vec4<float> pos;
         k2_math::Vec4<float> rot;
-        float velocity;
-        bool in_motion = false;
+        k2_math::Vec4<float> velocity;
         
 public:
         Camera(float x = 0, float y = 0, float z = 0, float r = 10, float rotx = 0, float rotz = 0, float roty = 0)
                 : pos(k2_math::Vec4<float>(x, y, z)), rot(k2_math::Vec4<float>(rotx, roty, rotz)), radius(r){}
 
         float get_radius() const { return radius; }
-        void set_motion(bool m) { in_motion = m; }
-        bool get_motion() const { return in_motion; }
         k2_math::Vec4<float> get_rot() const{ return rot; }
         k2_math::Vec4<float> get_pos() const{ return pos; }
         k2_math::Vec4<float>& ref_pos() { return pos; }
@@ -68,11 +66,11 @@ public:
         void rotate(float dx, float dy, float dz){
                 rot += k2_math::Vec4<float>(dx, dy, dz);
         }
-        void translate(float dx, float dy, float dz){
-                k2_math::Vec4<float> d(dx, dy, dz);
-                pos +=  k2_math::Mat4<float>::rotation(0, rot.get_y(), 0) * d;
-        }
+        void translate(float dx, float dy, float dz);
+        void translate(k2_math::Vec4<float>);
+        void move(float dx, float dy, float dz);
 
+        void tick(float groundy);
 
         Camera(const Camera&) = delete;
         Camera& operator=(const Camera&) = delete;

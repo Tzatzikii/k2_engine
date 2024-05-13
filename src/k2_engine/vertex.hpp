@@ -12,9 +12,7 @@ class Vertex{
 
 public:
         Vertex()
-                : pos(k2_math::Vec4<float>()), rgba(k2_math::Vec4<unsigned char>()), illumination(0) {
-                        rgba.set_w(0);
-                }
+                : pos(k2_math::Vec4<float>()), rgba(k2_math::Vec4<unsigned char>()), illumination(0) {}
         Vertex(const Vertex& vx)
                 : pos(vx.pos), rgba(vx.rgba), illumination(vx.illumination) {}
 
