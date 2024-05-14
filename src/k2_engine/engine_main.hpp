@@ -11,7 +11,9 @@
 #include "menu.hpp"
 #include <vector>
 #include <cstring>
-
+#include <iomanip>
+typedef long int intptr_t;
+#include <chrono>
 namespace k2_engine{
 
 void start_main();
