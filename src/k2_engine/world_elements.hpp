@@ -55,7 +55,7 @@ class Camera : public WorldElement{
         k2_math::Vec4<float> velocity;
         
 public:
-        Camera(float x = 0, float y = 0, float z = 0, float r = 10, float rotx = 0, float rotz = 0, float roty = 0)
+        Camera(float x = 0, float y = 0, float z = 0, float r = 40, float rotx = 0, float rotz = 0, float roty = 0)
                 : pos(k2_math::Vec4<float>(x, y, z)), rot(k2_math::Vec4<float>(rotx, roty, rotz)), radius(r){}
 
         float get_radius() const { return radius; }

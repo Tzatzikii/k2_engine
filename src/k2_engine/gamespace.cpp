@@ -3,8 +3,8 @@
 namespace k2_engine{
 
 GameSpace::GameSpace(float gravity, float camera_height, float goundy): gravity(gravity), camera_height(camera_height), groundy(groundy){
-       camera = new Camera(0, groundy + camera_height, 0);
-       this->groundy = 0; 
+        camera = new Camera(0, groundy + camera_height, 0);
+        this->groundy = 0; 
 }
 
 void GameSpace::add(WorldElement* obj){

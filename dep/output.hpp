@@ -172,12 +172,13 @@ inline void cout_xy(size_t x, size_t y, const T c, bool duplicate = true, bool s
 
 struct colored_char{
         char c;
-        unsigned char r, g, b;
+        u_char r, g, b, br, bg, bb;
 
-        colored_char(const colored_char& cc) : c(cc.c), r(cc.r), g(cc.g), b(cc.b){}
-        colored_char(const char c) : c(c), r(208), g(207), b(204){}
+        colored_char(const char c, const u_char r = 208, u_char g = 207, u_char b = 204, u_char br = 0, u_char bg = 0, u_char bb = 0)
+                : c(c), r(r), g(g), b(b), br(br), bg(bg), bb(bb) {}
         friend std::ostream& operator<<(std::ostream& os, colored_char cc){
                 Cursor::set_color(cc.r, cc.g, cc.b);
+                Cursor::set_background_color(cc.br, cc.bg, cc.bb);
                 os << cc.c;
                 return os;
         }
@@ -224,6 +225,10 @@ public:
          * a megfelelő oszlop- és sorindexű helyre
          */
         void push_to_stdout();
+
+        std::vector<colored_char>& operator[](size_t n){
+                return buffer[n];
+        }
 
 };
 

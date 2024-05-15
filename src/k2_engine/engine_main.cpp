@@ -5,11 +5,11 @@ namespace k2_engine{
 void debug_fn();
 
 void start_main(){  
-        //init_console();
-        debug_fn();
-        //open_main_menu();
+        init_console();
+        //debug_fn();
+        open_main_menu();
 
-        //restore_console();
+        restore_console();
 }
 void init_console(){
         outp::Rawmode::enable();
@@ -39,18 +39,21 @@ void debug_fn(){
 /**
  * TODO outputbuffert ostream-má alakítani (valahogy xd)
  */
-typedef std::chrono::high_resolution_clock hires_clock;
 void main_loop(){
 
         GameSpace scene = scene_creator();
         InputHandler inputs = scene_binds(scene);
         Renderer renderer(scene, 80, 60);
-        hires_clock::now;
+        std::cout << "\x1b[3m";
+
+        auto prev = std::chrono::high_resolution_clock::now(); 
         while(inputs.get_previous() != 'q'){
+                float delta = get_delta(prev);
                 inputs.handle_input();
                 scene.gravitate();
                 scene.tick();
                 renderer.render();
         }
 }
+
 }

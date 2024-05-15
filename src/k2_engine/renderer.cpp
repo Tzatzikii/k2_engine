@@ -73,8 +73,10 @@ void Renderer::cull(){
         wiremesh.insert(wiremesh.begin(), new_triangles.begin(), new_triangles.end());
 }
 void Renderer::project(){
-       Mat4<float> proj_mtx = Mat4<float>::projection(Vec4<float>((float)window_width, (float)window_height, scene->get_camera().get_radius())); 
-       for( Triangle& t : wiremesh){
+        Mat4<float> proj_mtx = Mat4<float>::projection(Vec4<float>((float)window_width, (float)window_height, scene->get_camera().get_radius())); 
+        bg_centre_2d.set_y(scene->get_camera().get_radius()* -std::tan(scene->get_camera().get_rot().get_x()) + window_height/2);
+        bg_centre_2d.set_x(scene->get_camera().get_radius()* std::tan(scene->get_camera().get_rot().get_y()) + window_width/2);
+        for( Triangle& t : wiremesh){
                 t.transform(proj_mtx);
 
                 Mat4<float> fw_divide = Mat4<float>()/t.get_v0().get_pos().get_z();
@@ -90,8 +92,13 @@ void Renderer::project(){
        }
 }
 
+void paint_bg(float y, float sy){
+        if(y < sy) outp::Cursor::set_background_color(0, 0, 0);
+        else outp::Cursor::set_background_color(255, 255, 255);
+}
 void Renderer::draw_line(const Vertex& v0, const Vertex& v1){
-
+        Vec4<u_char> color = (v0.get_rgba() + v1.get_rgba()) / 2;
+        Vec4<u_char> bgcolor;
         float x0 = v0.get_x();
         float x1 = v1.get_x();
         float y0 = v0.get_y();
@@ -106,7 +113,9 @@ void Renderer::draw_line(const Vertex& v0, const Vertex& v1){
                 float m = dy/dx;
                 while(x0 < x1){
                         if(boundary(0, window_width - 1, window_width - std::round(x0)) && boundary(0, window_height - 1, window_height - std::round(y0))){
-                                output_buffer.set_buffer(window_width - std::round(x0), window_height - std::round(y0), '#');
+                                output_buffer.set_buffer(window_width - std::round(x0), 
+                                window_height - std::round(y0), 
+                                outp::colored_char('@', color.get_x(), color.get_y(), color.get_z()));
                         }
                         y0+=m;
                         x0++;
@@ -120,7 +129,9 @@ void Renderer::draw_line(const Vertex& v0, const Vertex& v1){
                 float m = dx/dy;
                 while(y0 < y1){
                         if(boundary(0, window_width - 1, window_width - std::round(x0)) && boundary(0, window_height - 1, window_height - std::round(y0))){
-                                output_buffer.set_buffer(window_width - std::round(x0), window_height - std::round(y0), '#');
+                                output_buffer.set_buffer(window_width - std::round(x0),
+                                window_height - std::round(y0), 
+                                outp::colored_char('@', color.get_x(), color.get_y(), color.get_z()));
                         }
                         x0+=m;
                         y0++;
@@ -140,12 +151,43 @@ void Renderer::draw(){
         output_buffer.clear_buffer();
 }
 
+void Renderer::draw_background(){
+        for(size_t i = 0; i < window_width; i++){
+                for(size_t j =  0; j < window_height; j++){
+                        u_char dist = abs(bg_centre_2d.get_y() - j);
+                        u_char grad = ((dist*2) % (60) + 60) % 60;
+                        if(j < bg_centre_2d.get_y()){
+                                output_buffer[i][j].br = 32+grad;
+                                output_buffer[i][j].bg = 15;
+                                output_buffer[i][j].bb = 69;
+                                if(pyth2d<size_t>((bg_centre_2d.get_x() - i), (std::round(bg_centre_2d.get_y()) - j)) <= 17){
+                                        output_buffer[i][j].br += 120;
+                                        output_buffer[i][j].bg += 100;
+                                }
+                        }
+                        else{
+                                output_buffer[i][j].br = 0;
+                                output_buffer[i][j].bg = 0;
+                                output_buffer[i][j].bb = 0;
+                        }
+
+                        if(j == std::round(bg_centre_2d.get_y())){
+                                output_buffer[i][j].br = 255;
+                                output_buffer[i][j].bg = 200;
+                                output_buffer[i][j].bb = 80;
+                        }
+                }
+        }
+        std::cout << "\x1B[0m";
+}
+
 void Renderer::render(){
         extract_wiremesh();
         view_transform();
         cull();
         project();
         draw_wireframe();
+        draw_background();
         draw();
 }
 }//namespace

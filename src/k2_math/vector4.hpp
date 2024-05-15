@@ -71,12 +71,10 @@ public:
                 return (*this)/n;
         }
 
-        Vec4<T>& operator-(){
-                x = -x;
-                y = -y;
-                z = -z;
-                w = -w;
-                return *this;
+        Vec4<T> operator-() const{
+                Vec4<T> neg = *this;
+                neg*=-1;
+                return neg;
         }
         
 };

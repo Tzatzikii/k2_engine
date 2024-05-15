@@ -26,7 +26,7 @@ public:
         k2_math::Vec4<float>& ref_pos() { return pos; }
         void set_pos(const k2_math::Vec4<float>& new_pos) { pos = new_pos; }
         
-        k2_math::Vec4<unsigned char> get_rgba() { return rgba; }
+        k2_math::Vec4<unsigned char> get_rgba() const { return rgba; }
         k2_math::Vec4<unsigned char>& ref_rgba() { return rgba; }
         void set_rgba(const k2_math::Vec4<unsigned char>& new_rgba) { rgba = new_rgba; }
 

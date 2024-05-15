@@ -4,8 +4,8 @@ using namespace k2_math;
 
 
 GameSpace scene_creator(){
-        GameSpace scene;
-        scene.add(new StaticObject(Shape::Cube(VecF(0, 0, 15), VecF(0, 0, 0), 10.0f)));
+        GameSpace scene(10, 5, 0);
+        scene.add(new StaticObject(Shape::Cube(VecF(0, 7.5, 10), VecF(0, 0, 0), 15.0f, VecRGB(255, 255, 0) )));
 
         return scene;
 }

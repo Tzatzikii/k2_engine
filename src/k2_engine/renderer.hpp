@@ -21,6 +21,8 @@ class Renderer{
         outp::OutputBuffer output_buffer;
         size_t window_width;
         size_t window_height;
+        k2_math::Vec4<float> bg_centre_2d;
+        float render_distance;
 
 
         void draw_line(const Vertex&, const Vertex&);
@@ -36,6 +38,7 @@ public:
         void project();
         void draw_wireframe(); //Debug miatt
         void rasterize();
+        void draw_background();
         void draw();        
         void render();
 

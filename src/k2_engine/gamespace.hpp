@@ -28,6 +28,7 @@ public:
         ~GameSpace(){
                 for( WorldElement* obj : world_elements ) delete obj;
         }
+        float get_groundy() const { return groundy; } 
         void gravitate();
         void tick();
 
