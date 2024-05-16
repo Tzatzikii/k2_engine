@@ -112,10 +112,15 @@ void Renderer::draw_line(const Vertex& v0, const Vertex& v1){
                 }
                 float m = dy/dx;
                 while(x0 < x1){
-                        if(boundary(0, window_width - 1, window_width - std::round(x0)) && boundary(0, window_height - 1, window_height - std::round(y0))){
-                                output_buffer.set_buffer(window_width - std::round(x0), 
-                                window_height - std::round(y0), 
-                                outp::colored_char('@', color.get_x(), color.get_y(), color.get_z()));
+                        size_t  x = window_width - std::round(x0);
+                        size_t  y = window_height - std::round(y0);
+                        if(boundary(0, window_width - 1, x) && boundary(0, window_height - 1, y)){
+                                bgcolor = { output_buffer[x][y].br, output_buffer[x][y].bg, output_buffer[x][y].bb };
+                                output_buffer.set_buffer(x, y, 
+                                outp::colored_char('@', 255, 255, 255,
+                                                        std::min(255, color.get_x() + bgcolor.get_x()),
+                                                        std::min(255, color.get_y()+bgcolor.get_y()),
+                                                        std::min(255, color.get_z()+bgcolor.get_z())));
                         }
                         y0+=m;
                         x0++;
@@ -128,10 +133,15 @@ void Renderer::draw_line(const Vertex& v0, const Vertex& v1){
                 }
                 float m = dx/dy;
                 while(y0 < y1){
-                        if(boundary(0, window_width - 1, window_width - std::round(x0)) && boundary(0, window_height - 1, window_height - std::round(y0))){
-                                output_buffer.set_buffer(window_width - std::round(x0),
-                                window_height - std::round(y0), 
-                                outp::colored_char('@', color.get_x(), color.get_y(), color.get_z()));
+                        size_t  x = window_width - std::round(x0);
+                        size_t  y = window_height - std::round(y0);
+                        if(boundary(0, window_width - 1, x) && boundary(0, window_height - 1, y)){
+                                bgcolor = { output_buffer[x][y].br, output_buffer[x][y].bg, output_buffer[x][y].bb };
+                                output_buffer.set_buffer(x, y, 
+                                outp::colored_char('@', 255, 255, 255,
+                                                        std::min(255, color.get_x() + bgcolor.get_x()),
+                                                        std::min(255, color.get_y()+bgcolor.get_y()),
+                                                        std::min(255, color.get_z()+bgcolor.get_z())));
                         }
                         x0+=m;
                         y0++;
@@ -153,17 +163,22 @@ void Renderer::draw(){
 
 void Renderer::draw_background(){
         for(size_t i = 0; i < window_width; i++){
-                for(size_t j =  0; j < window_height; j++){
+                size_t modc = 2;
+                for(size_t j = window_height-1; j > 0; j--){
                         u_char dist = abs(bg_centre_2d.get_y() - j);
+                        int idist = dist;
                         u_char grad = ((dist*2) % (60) + 60) % 60;
-                        if(j < bg_centre_2d.get_y()){
+                        if(j <= bg_centre_2d.get_y()){
                                 output_buffer[i][j].br = 32+grad;
                                 output_buffer[i][j].bg = 15;
                                 output_buffer[i][j].bb = 69;
-                                if(pyth2d<size_t>((bg_centre_2d.get_x() - i), (std::round(bg_centre_2d.get_y()) - j)) <= 17){
-                                        output_buffer[i][j].br += 120;
+
+                                if(pyth2d<size_t>((bg_centre_2d.get_x() - i), (std::round(bg_centre_2d.get_y()) - j)) <= 17 && (dist+1)%modc != 0 ){
+                                       output_buffer[i][j].br += 120;
                                         output_buffer[i][j].bg += 100;
                                 }
+
+                                if(idist == modc) modc*=2; 
                         }
                         else{
                                 output_buffer[i][j].br = 0;
@@ -171,11 +186,6 @@ void Renderer::draw_background(){
                                 output_buffer[i][j].bb = 0;
                         }
 
-                        if(j == std::round(bg_centre_2d.get_y())){
-                                output_buffer[i][j].br = 255;
-                                output_buffer[i][j].bg = 200;
-                                output_buffer[i][j].bb = 80;
-                        }
                 }
         }
         std::cout << "\x1B[0m";
@@ -186,8 +196,8 @@ void Renderer::render(){
         view_transform();
         cull();
         project();
-        draw_wireframe();
         draw_background();
+        draw_wireframe();
         draw();
 }
 }//namespace

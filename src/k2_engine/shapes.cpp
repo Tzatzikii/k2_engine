@@ -40,16 +40,24 @@ Shape Shape::Cube(VecF centre, VecF orientation, float size, VecRGB color, float
         cube.centre = centre;
         Shape quad = Shape::Quad(VecF(0, 0, 0), orientation, size, color, opacity);
 
-#define INSERT_QUAD cube.components.insert(cube.components.end(), quad.components.begin(), quad.components.end());
 
         quad.transform(MatF::translation(centre+VecF(0, 0, size/2)));
-        INSERT_QUAD
+        cube.components.insert(cube.components.end(), quad.components.begin(), quad.components.end());
+
         quad.transform(MatF::translation(centre)*MatF::rotation_y(pi/2)*MatF::translation(-centre));
-        INSERT_QUAD
+        cube.components.insert(cube.components.end(), quad.components.begin(), quad.components.end());
+
         quad.transform(MatF::translation(centre)*MatF::rotation_y(pi/2)*MatF::translation(-centre));
-        INSERT_QUAD
+        cube.components.insert(cube.components.end(), quad.components.begin(), quad.components.end());
+
         quad.transform(MatF::translation(centre)*MatF::rotation_y(pi/2)*MatF::translation(-centre));
-        INSERT_QUAD
+        cube.components.insert(cube.components.end(), quad.components.begin(), quad.components.end());
+
+        quad.transform(MatF::translation(centre)*MatF::rotation_z(pi/2)*MatF::translation(-centre));
+        cube.components.insert(cube.components.end(), quad.components.begin(), quad.components.end());
+
+        quad.transform(MatF::translation(centre)*MatF::rotation_z(pi)*MatF::translation(-centre));
+        cube.components.insert(cube.components.end(), quad.components.begin(), quad.components.end());
 
         return cube;
 

@@ -5,8 +5,9 @@ using namespace k2_math;
 
 GameSpace scene_creator(){
         GameSpace scene(10, 5, 0);
-        scene.add(new StaticObject(Shape::Cube(VecF(0, 7.5, 10), VecF(0, 0, 0), 15.0f, VecRGB(255, 255, 0) )));
+        scene.add(new StaticObject(Shape::Cube(VecF(0, 7.5, 10), VecF(0, 0, 0), 15.0f, VecRGB(255, 0, 0) )));
 
+        scene.add(new StaticObject(Shape::Cube(VecF(0, 0, 0), VecF(0, 0, 0), 5.0f, VecRGB(0, 0, 255))));
         return scene;
 }
 
@@ -20,6 +21,7 @@ InputHandler scene_binds(GameSpace& scene){
         inputs.bind('l', rotate_right);
         inputs.bind('k', look_up);
         inputs.bind('i', look_down);
+        inputs.bind(' ', jump);
 
 
         return inputs;
