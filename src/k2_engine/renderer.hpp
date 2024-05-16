@@ -28,9 +28,9 @@ class Renderer{
         void draw_line(const Vertex&, const Vertex&);
 
 public:
-        Renderer(const GameSpace& scene, size_t window_width, size_t window_height)
+        Renderer(const GameSpace& scene, size_t window_width, size_t window_height, float render_distance = 50)
                 : scene(&scene), output_buffer(outp::OutputBuffer(window_width, window_height)),
-                  window_width(window_width), window_height(window_height){}
+                  window_width(window_width), window_height(window_height), render_distance(render_distance){}
         void extract_wiremesh();
         void illuminate();
         void cull();

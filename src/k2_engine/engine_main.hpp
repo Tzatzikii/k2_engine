@@ -25,7 +25,7 @@ void restore_console();
 template <typename T>
 inline float get_delta(std::chrono::time_point<T> prev){
         std::chrono::seconds s;
-        auto curr = std::chrono::high_resolution_clock::now();
+        std::chrono::time_point<T> curr = std::chrono::high_resolution_clock::now();
         auto diff = curr - prev;
         float delta = diff.count()/s.count();
         return delta;

@@ -22,5 +22,17 @@ float roundto(float n){
         float e = std::pow(10, decimal);
         return std::round(e*n)/e;
 }
+
+inline float interpolate_z(float n0, float z0, float n1, float z1, float n){
+        float z;
+        float dn = n0-n1;
+        float dz = z0-z1;
+        float Dn = n0-n;
+        z = z0 - (Dn/dn) * dz;
+
+        return z;
 }
+
+}//namespace
+
 #endif

@@ -8,10 +8,10 @@ GameSpace::GameSpace(float gravity, float camera_height, float goundy): gravity(
 }
 
 void GameSpace::add(WorldElement* obj){
-        if(!!dynamic_cast<LightSource*>(obj))
+        if(dynamic_cast<LightSource*>(obj) != nullptr)
                 lightsources.push_back(dynamic_cast<LightSource*>(obj));
 
-        else if(!!dynamic_cast<DynamicObject*>(obj)){
+        else if(dynamic_cast<DynamicObject*>(obj) != nullptr){
                 objects.push_back(dynamic_cast<Object*>(obj));
                 dynamic_objects.push_back(dynamic_cast<DynamicObject*>(obj));
         }
