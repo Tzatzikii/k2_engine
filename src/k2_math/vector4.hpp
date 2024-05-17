@@ -37,33 +37,20 @@ public:
                 return (*this);
         }
 
-        Vec4<T> operator*(const Vec4<T> rhs_v){
-                return Vec4<T>(x*rhs_v.x, y*rhs_v.y, z*rhs_v.z, w*rhs_v.w);
-        }
 
         Vec4<T>& operator*=(const Vec4<T>& rhs_v){
                 (*this) = (*this)*rhs_v;
                 return (*this);
         }
 
-        Vec4<T> operator*(T rhs_n) const {
+        Vec4<T> operator*(const T& rhs_n) const {
                 return Vec4<T>(x*rhs_n, y*rhs_n, z*rhs_n, w*rhs_n);
         }
         
-        Vec4<T>& operator*=(T rhs_n){
+        Vec4<T>& operator*=(const T& rhs_n){
                 (*this) = (*this)*rhs_n;
                 return *this;
         }
-        Vec4<T> operator-(const Vec4<T>& rhs_v) const{
-                Vec4<T> A(x, y, z, w); 
-                Vec4<T> B(rhs_v);
-                return Vec4<T>(A+(B*(-1)));
-        }
-        
-        Vec4<T>& operator-=(const Vec4<T>& rhs_v){
-                (*this) = (*this) - rhs_v;
-                return (*this);
-        } 
         Vec4<T> operator/(T n) const{
                 return Vec4<T>(x/n, y/n, z/n, w/n);
         }
@@ -76,6 +63,16 @@ public:
                 neg*=-1;
                 return neg;
         }
+        Vec4<T> operator-(const Vec4<T>& rhs_v) const{
+                Vec4<T> A(x, y, z, w); 
+                Vec4<T> B(rhs_v);
+                return Vec4<T>(A+(-B));
+        }
+        
+        Vec4<T>& operator-=(const Vec4<T>& rhs_v){
+                (*this) = (*this) - rhs_v;
+                return (*this);
+        } 
         
 };
 

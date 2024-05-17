@@ -122,11 +122,11 @@ void Renderer::draw_line(const Vertex& v0c, const Vertex& v1c){
                         int  y = window_height - std::round(y0);
                         if(boundary(0, window_width - 1, x) && boundary(0, window_height - 1, y)){
                                 float z_index = interpolate_z(x0, z0, x1, z1, x);
-                                if(z_index < output_buffer[x][y].z_index){
+                                if(std::round(z_index) != std::round(output_buffer[x][y].z_index)){
                                         bgcolor = { output_buffer[x][y].br, output_buffer[x][y].bg, output_buffer[x][y].bb };
                                         output_buffer.set_buffer(x, y, 
                                         outp::colored_char('@', 255, 255, 255,
-                                                                std::min(255, color.get_x() + bgcolor.get_x()),
+                                                                std::min(255, color.get_x()+bgcolor.get_x()),
                                                                 std::min(255, color.get_y()+bgcolor.get_y()),
                                                                 std::min(255, color.get_z()+bgcolor.get_z()),
                                                                 z_index
@@ -150,7 +150,7 @@ void Renderer::draw_line(const Vertex& v0c, const Vertex& v1c){
                         int  y = window_height - std::round(yi);
                         float z_index = interpolate_z(y0, z0, y1, z1, y);
                         if(boundary(0, window_width - 1, x) && boundary(0, window_height - 1, y)){
-                                if(z_index < output_buffer[x][y].z_index){
+                                if(std::round(z_index) != std::round(output_buffer[x][y].z_index)){
                                         bgcolor = { output_buffer[x][y].br, output_buffer[x][y].bg, output_buffer[x][y].bb };
                                         output_buffer.set_buffer(x, y, outp::colored_char('@', 255, 255, 255,
                                                                         std::min(255, color.get_x() + bgcolor.get_x()),

@@ -10,8 +10,8 @@
 namespace k2_engine{
 
 class WorldElement{
-public:
-        virtual ~WorldElement() = default;
+public: 
+        virtual ~WorldElement(){}
 };
 
 class Object : public WorldElement{
@@ -72,8 +72,6 @@ public:
 
         void tick(float groundy);
 
-        Camera(const Camera&) = delete;
-        Camera& operator=(const Camera&) = delete;
 };
 
 

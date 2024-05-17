@@ -10,6 +10,7 @@ void open_main_menu(){
         << "\t2: Load game      \n"
         << "\t3: Help           \n"
         << "\t4: Credits        \n"
+        << "\t5: Exit           \n"
         <<                     '\n'
         << "[Choice]";
         ushort choice;
@@ -23,6 +24,10 @@ void open_main_menu(){
                         }
                         case 1:{
                                 main_loop(); 
+                                exit_cond = true;
+                                break;
+                        }
+                        case 5:{
                                 exit_cond = true;
                                 break;
                         }

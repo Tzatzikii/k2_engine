@@ -8,9 +8,11 @@ GameSpace::GameSpace(float gravity, float camera_height, float goundy): gravity(
 }
 
 void GameSpace::add(WorldElement* obj){
-        if(dynamic_cast<LightSource*>(obj) != nullptr)
+// ???????????????????????????????????????????????????????
+        world_elements.push_back(obj);
+        if(dynamic_cast<LightSource*>(obj) != nullptr){
                 lightsources.push_back(dynamic_cast<LightSource*>(obj));
-
+        }
         else if(dynamic_cast<DynamicObject*>(obj) != nullptr){
                 objects.push_back(dynamic_cast<Object*>(obj));
                 dynamic_objects.push_back(dynamic_cast<DynamicObject*>(obj));
@@ -29,5 +31,9 @@ void GameSpace::gravitate(){
 void GameSpace::tick(){
         if(camera)
         camera->tick(groundy);
+}
+
+std::ofstream& operator<<(std::ofstream& os, const GameSpace& gs){
+        return os;
 }
 }//namespace

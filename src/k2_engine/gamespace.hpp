@@ -1,16 +1,31 @@
+/**
+ * @file gamespace.hpp
+ * @author Klemm Gábor (H9XK58)
+ * @brief Maga a játéktér tulajdonképpen, ő tartalmaz minden megjelenített objektumot / folyamatot
+ * @version 0.1
+ * @date 2024-05-17
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #ifndef K2_ENGINE_GAMESPACE_HPP_
 #define K2_ENGINE_GAMESPACE_HPP_
 
 #include "world_elements.hpp"
+#include <fstream>
 #include <memory>
 
 namespace k2_engine{
 
+/**
+ * @brief A játéktérben lévő elemek tárolására szolgál
+ * 
+ */
 class GameSpace{
-        float gravity;
-        float groundy;
-        float camera_height;
-        Camera* camera;
+        float gravity; // < gravitáció, mint a valóságban
+        float groundy; // < talaj y koordinátája
+        float camera_height; // < kamera magassága, kb mint egy ember szemei, hogy ne a talajon legyen közvetlen
+        Camera* camera; // < 
         std::vector<WorldElement*> world_elements;
         std::vector<LightSource*> lightsources;
         std::vector<Object*> objects;
@@ -27,10 +42,13 @@ public:
         std::vector<Object*> get_objects() const { return objects; }
         ~GameSpace(){
                 for( WorldElement* obj : world_elements ) delete obj;
+                delete camera;
         }
         float get_groundy() const { return groundy; } 
         void gravitate();
         void tick();
+
+        friend std::ofstream& operator<<(const std::ofstream& os, const GameSpace& gs);
 
 };
 

@@ -20,6 +20,7 @@ OBJS = main.o \
 	output.o \
 	logics_module_test.o \
 	scene.o
+	
 
 HDRS = $(ENGINE)/engine_main.hpp $(ENGINE)/world_elements.hpp $(ENGINE)/gamespace.hpp\
 	$(ENGINE)/lightsources.hpp $(ENGINE)/renderer.hpp $(ENGINE)/shapes.hpp \
