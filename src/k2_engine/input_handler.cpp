@@ -6,7 +6,7 @@ void InputHandler::bind(char key, control action){
 }
 
 void InputHandler::handle_input(){
-        if(queue = outp::kbhit()) std::cin >> previous >> current; //std::getchar() gyorsabb amúgy, de az nem elég c++
+        if(queue = outp::kbhit()){previous = current = getchar();};
         bool binded = binds.find(current) != binds.end();
         if(!binded) return;
         control action = binds.find(current)->second;

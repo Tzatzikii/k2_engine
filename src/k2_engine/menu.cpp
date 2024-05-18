@@ -17,6 +17,7 @@ void open_main_menu(){
         bool exit_cond = false;
         while(!exit_cond){
                 std::cin>>choice;
+                std::cout << choice;
                 switch(choice){
                         default:{
                                 std::cout << "Please choose from the options above";
@@ -33,5 +34,9 @@ void open_main_menu(){
                         }
                 }
         }
+}
+
+void open_ingame_menu(){
+
 }
 }//namespace

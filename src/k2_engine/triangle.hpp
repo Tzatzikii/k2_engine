@@ -4,6 +4,7 @@
 #include "../k2_math/vector4.hpp"
 #include "../k2_math/matrix4.hpp"
 #include "vertex.hpp"
+#include <fstream>
 namespace k2_engine{
 class Triangle{
         Vertex v0;
@@ -11,6 +12,7 @@ class Triangle{
         Vertex v2;
         
 public:
+        Triangle() : v0(Vertex()), v1(Vertex()), v2(Vertex()){}
         Triangle(const k2_math::Vec4<float> A, k2_math::Vec4<float> B, k2_math::Vec4<float> C, k2_math::Vec4<unsigned char> color)
                 : v0(Vertex(A, color)), v1(Vertex(B, color)), v2(Vertex(C, color)){}
         Triangle(const Vertex& v0, const Vertex& v1, const Vertex& v2)
@@ -28,6 +30,9 @@ public:
         void set_v1(const Vertex& new_v1) { v1 = new_v1; }
         void set_v2(const Vertex& new_v2) { v2 = new_v2; }
         void transform(k2_math::Mat4<float> transformation_matrix); 
+        friend std::ofstream& operator<<(std::ofstream& os, const Triangle& triangle);
+        friend std::ifstream& operator>>(std::ifstream& is, Triangle& triangle);
 };
+
 }
 #endif

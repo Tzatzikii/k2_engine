@@ -5,7 +5,6 @@
  * @version 0.1
  * @date 2024-05-17
  * 
- * @copyright Copyright (c) 2024
  * 
  */
 #ifndef K2_ENGINE_ENGINE_MAIN_HPP_
@@ -22,6 +21,7 @@
 #include <vector>
 #include <cstring>
 #include <iomanip>
+#include <algorithm>
 typedef long int intptr_t; // valami miatt a chrono-ban összeakadtak a define-k és nincs definiálva
                            // ezért manuálisan definiáltom kellett, hogy leforduljon a header
 #include <chrono>
@@ -53,10 +53,12 @@ void restore_console();
  */
 template <typename T>
 inline float get_delta(std::chrono::time_point<T> prev){
-        std::chrono::seconds s;
+        std::chrono::nanoseconds s(1000000000);
         std::chrono::time_point<T> curr = std::chrono::high_resolution_clock::now();
         auto diff = curr - prev;
-        float delta = diff.count()/s.count();
+        outp::Cursor::move(162, 0);
+        //std::cout <<"FPS: " << s.count()/diff.count();
+        float delta = diff.count();
         return delta;
 }
 

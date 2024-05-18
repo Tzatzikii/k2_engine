@@ -6,7 +6,7 @@
 
 namespace k2_engine{
 void open_main_menu();
-
+void open_ingame_menu();
 
 }//namespace
 #endif

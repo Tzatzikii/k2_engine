@@ -63,5 +63,22 @@ Shape Shape::Cube(VecF centre, VecF orientation, float size, VecRGB color, float
 
 }
 
+std::ofstream& operator<<(std::ofstream& os, const Shape& shape){
+        os<<shape.get_components().size();
+        for(Triangle t : shape.components){
+                os<<t;
+        }
+        return os;
+}
+std::ifstream& operator>>(std::ifstream& is, Shape& shape){
+        size_t components_length;
+        is>>components_length;
+        for(size_t i = 0; i < components_length; ++i){
+                Triangle tmp;
+                is>>tmp;
+                shape.components.push_back(tmp);
+        }
+        return is;
+}
 
-}//namespace
+} // namespace

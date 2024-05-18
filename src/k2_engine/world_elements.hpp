@@ -3,15 +3,16 @@
 #include <vector>
 #include <memory>
 #include <iostream>
+#include <fstream>
 #include "triangle.hpp"
 #include "../k2_math/vector4.hpp"
 #include "../k2_math/matrix4.hpp"
 #include "shapes.hpp"
 namespace k2_engine{
-
 class WorldElement{
 public: 
         virtual ~WorldElement(){}
+        virtual void write(std::ofstream& of) const = 0;
 };
 
 class Object : public WorldElement{
@@ -24,21 +25,24 @@ public:
 
 };
 
-class DynamicObject : public Object{
+class DynamicObject : virtual public Object{
+protected:
         float tickrate;
         k2_math::Vec4<float> velocity; 
 
 public:
-        DynamicObject(const Shape& shape) : Object(shape){}
-        virtual void step() = 0;
+        DynamicObject(const Shape& shape, float tickrate = 0.1) : Object(shape), tickrate(tickrate){}
+        virtual void tick(float delta) = 0;
+        virtual void write(std::ofstream& os) const = 0;
 
 };
-
 
 class StaticObject : public Object{
 
 public:
         StaticObject(const Shape& shape) : Object(shape){}
+        void write(std::ofstream& os) const ;
+        StaticObject* read(std::ifstream& is);
         
 };
 
@@ -46,6 +50,8 @@ class LightSource : public WorldElement{
 protected:
         float brightness;
         float range;
+public:
+        virtual void write(std::ofstream& os) const = 0;
 };
 
 class Camera : public WorldElement{
@@ -72,6 +78,17 @@ public:
 
         void tick(float groundy);
 
+        void write(std::ofstream& os) const;
+        void read(std::ifstream& is);
+};
+
+
+class TestDynamicObject : public DynamicObject{
+public:
+        TestDynamicObject(const Shape& shape):
+                Object(shape), DynamicObject(shape){}
+        void tick(float delta);
+        void write(std::ofstream& os) const;
 };
 
 

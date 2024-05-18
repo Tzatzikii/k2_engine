@@ -5,7 +5,6 @@
  * @version 0.1
  * @date 2024-05-17
  * 
- * @copyright Copyright (c) 2024
  * 
  */
 #ifndef K2_ENGINE_GAMESPACE_HPP_
@@ -14,6 +13,7 @@
 #include "world_elements.hpp"
 #include <fstream>
 #include <memory>
+#include <algorithm>
 
 namespace k2_engine{
 
@@ -46,9 +46,13 @@ public:
         }
         float get_groundy() const { return groundy; } 
         void gravitate();
-        void tick();
+        void tick(float delta);
 
-        friend std::ofstream& operator<<(const std::ofstream& os, const GameSpace& gs);
+        void save(const char* fname);
+        void read(const char* fname);
+
+        friend std::ofstream& operator<<(std::ofstream& os, const GameSpace& gs);
+        friend std::ifstream& operator>>(std::ifstream& is, GameSpace& gs);
 
 };
 

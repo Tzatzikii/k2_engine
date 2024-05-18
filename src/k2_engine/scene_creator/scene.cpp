@@ -11,7 +11,7 @@ GameSpace scene_creator(){
         GameSpace scene(10, 5, 0);
         scene.add(new StaticObject(Shape::Cube(VecF(0, 7.5, 10), VecF(0, 0, 0), 15.0f, VecRGB(255, 0, 0) )));
 
-        scene.add(new StaticObject(Shape::Cube(VecF(0, 0, 0), VecF(0, 0, 0), 5.0f, VecRGB(0, 0, 255))));
+        scene.add(new TestDynamicObject(Shape::Cube(VecF(0, 5, 10), VecF(0, 0, 0), 5.0f, VecRGB(0, 0, 255))));
 
         return scene;
 }

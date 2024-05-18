@@ -8,7 +8,7 @@ GameSpace::GameSpace(float gravity, float camera_height, float goundy): gravity(
 }
 
 void GameSpace::add(WorldElement* obj){
-// ???????????????????????????????????????????????????????
+// ??????????????????????????????????????????????????????? goofy ahh !oop implementáció
         world_elements.push_back(obj);
         if(dynamic_cast<LightSource*>(obj) != nullptr){
                 lightsources.push_back(dynamic_cast<LightSource*>(obj));
@@ -28,12 +28,33 @@ void GameSpace::gravitate(){
         //camera->move(0.0, -0.1, 0.0);
 }
 
-void GameSpace::tick(){
+void GameSpace::tick(float delta){
         if(camera)
         camera->tick(groundy);
+        for(DynamicObject*& obj : dynamic_objects) obj->tick(delta);
 }
 
 std::ofstream& operator<<(std::ofstream& os, const GameSpace& gs){
+        os<<gs.gravity<<';'<<gs.groundy<<';'<<gs.camera_height<<std::endl;
+        gs.camera->write(os);
+        for(const WorldElement* const we : gs.world_elements){
+               we->write(os);
+        }
         return os;
+}
+std::ifstream& operator>>(std::ifstream& is, GameSpace& gs){
+        ((is>>gs.gravity).ignore(1, ';')>>gs.groundy).ignore(1, ';')>>gs.camera_height;
+        gs.camera->read(is);
+        std::string objname;
+        while(!is.eof()){
+                is >> objname;
+                if(!objname.compare(".STATICOBJECT")){
+                        Shape shape;
+                        is >> shape;
+                        gs.add(new StaticObject(shape));
+                        objname.clear();
+                }
+        }
+        return is;
 }
 }//namespace

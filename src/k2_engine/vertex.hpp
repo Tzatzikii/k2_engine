@@ -2,6 +2,7 @@
 #define K2_ENGINE_VERTEX_HPP_
 
 #include "../k2_math/vector4.hpp"
+#include <fstream>
 
 namespace k2_engine{
 
@@ -34,7 +35,10 @@ public:
         float get_y() const{ return pos.get_y(); }
         float get_z() const{ return pos.get_z(); }
 
+        friend std::ofstream& operator<<(std::ofstream& os, const Vertex& vertex);
+        friend std::ifstream& operator>>(std::ifstream& is, Vertex& vertex);
 };
+
 }
 
 #endif // K2_ENGINE_VERTEX_HPP_

@@ -2,6 +2,7 @@
 #define K2_MATH_VECTOR4_HPP_
 
 #include <cmath>
+#include <fstream>
 
 namespace k2_math {
  
@@ -73,8 +74,21 @@ public:
                 (*this) = (*this) - rhs_v;
                 return (*this);
         } 
+
+        friend std::ofstream& operator<<(std::ofstream& os, const Vec4<T>& vector){
+
+                os<<'['<<vector.x<<':'<<vector.y<<':'<<vector.z<<':'<<vector.w<<']';
+                return os;
+        }
+        friend std::ifstream& operator>>(std::ifstream& is, Vec4<T>& vector){
+                T x, y, z, w;
+                ((((is.ignore(1, '[')>>x).ignore(1, ':')>>y).ignore(1, ':')>>z).ignore(1, ':')>>w).ignore(1, ']');
+                vector.set_x(x); vector.set_y(y); vector.set_z(z); vector.set_w(w);
+                return is;
+        }
         
 };
+
 
 } //namespace k2_math
 #endif // K2_MATH_VECTOR4_HPP_

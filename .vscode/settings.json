@@ -70,7 +70,9 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "valarray": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "text_encoding": "cpp"
     },
-    "synthwave84.brightness": 1
+    "synthwave84.brightness": 1,
+    "C_Cpp.errorSquiggles": "enabled"
 }
