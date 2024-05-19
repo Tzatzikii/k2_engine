@@ -8,7 +8,12 @@ void InputHandler::bind(char key, control action){
 void InputHandler::handle_input(){
         if(queue = outp::kbhit()){previous = current = getchar();};
         bool binded = binds.find(current) != binds.end();
-        if(!binded) return;
+        if(current == 'm'){
+                open_ingame_menu(scene);
+                current = 0;
+                return;
+        }
+        else if(!binded) return;
         control action = binds.find(current)->second;
         Camera* cam = scene->get_camera_ptr();
 
@@ -45,6 +50,7 @@ void InputHandler::handle_input(){
                         cam->translate(0, 4, 0);
                         //cam->move(0.0, 4.0, 0.0);
                 break;
+                        
                 default:
                 break;
         }

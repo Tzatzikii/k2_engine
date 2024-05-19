@@ -12,4 +12,5 @@ using VecF = k2_math::Vec4<float>;
 using VecRGB = k2_math::Vec4<unsigned char>;
 k2_engine::GameSpace scene_creator();
 k2_engine::InputHandler scene_binds(k2_engine::GameSpace&);
+k2_engine::GameSpace load_scene(std::string fname);
 #endif

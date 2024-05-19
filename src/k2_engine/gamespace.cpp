@@ -2,6 +2,7 @@
 
 namespace k2_engine{
 
+
 GameSpace::GameSpace(float gravity, float camera_height, float goundy): gravity(gravity), camera_height(camera_height), groundy(groundy){
         camera = new Camera(0, groundy + camera_height, 0);
         this->groundy = 0; 
@@ -45,16 +46,33 @@ std::ofstream& operator<<(std::ofstream& os, const GameSpace& gs){
 std::ifstream& operator>>(std::ifstream& is, GameSpace& gs){
         ((is>>gs.gravity).ignore(1, ';')>>gs.groundy).ignore(1, ';')>>gs.camera_height;
         gs.camera->read(is);
-        std::string objname;
+        char objid;
         while(!is.eof()){
-                is >> objname;
-                if(!objname.compare(".STATICOBJECT")){
-                        Shape shape;
-                        is >> shape;
-                        gs.add(new StaticObject(shape));
-                        objname.clear();
+                (is.ignore(2, '.') >> objid).ignore(1, ';');
+                switch(objid){
+                        case 'S':{
+                                StaticObject* obj = new StaticObject;
+                                obj->read(is);
+                                gs.add(obj);
+                                break;
+                        }
+                        case 'T':{
+                                TestDynamicObject* obj = new TestDynamicObject;
+                                obj->read(is);
+                                gs.add(obj);
+                                break;
+                        }
                 }
         }
         return is;
 }
+void GameSpace::save(const std::string& fname) const{
+        std::ofstream os(fname + ".ktwo");
+        os << *this;
+}
+void GameSpace::load(const std::string& fname){
+        std::ifstream is(fname + ".ktwo");
+        is >> *this;
+}
+
 }//namespace

@@ -9,13 +9,7 @@ using VecF = k2_math::Vec4<float>;
 using VecRGB = k2_math::Vec4<unsigned char>;
 using MatF = k2_math::Mat4<float>;
 constexpr float pi = 3.1415926535f; 
-void Shape::calculate_centre(){
-        Vec4<float> centre;
-        for(Triangle t : components){
-                centre += VecF((t.get_v0().get_pos() + t.get_v1().get_pos() + t.get_v2().get_pos())/3);
-        }
-        centre/=components.size();
-}
+
 
 void Shape::transform(MatF transformation_matrix){
         for(Triangle& t : components){
@@ -24,6 +18,7 @@ void Shape::transform(MatF transformation_matrix){
 }
 Shape Shape::Quad(VecF centre, VecF orientation, float size, VecRGB color, float opacity){
                 Shape quad;
+                quad.centre = centre;
                 Triangle t0(VecF(-size/2, -size/2, 0), VecF(-size/2, size/2, 0), VecF(size/2, -size/2, 0), color);
                 Triangle t1(VecF(size/2, size/2, 0), VecF(-size/2, size/2, 0), VecF(size/2, -size/2, 0), color);
                 t0.transform(MatF::translation(centre)*MatF::rotation(orientation));

@@ -1,8 +1,7 @@
 #include "menu.hpp"
-
 namespace k2_engine{
 
-extern void main_loop();
+
 
 void open_main_menu(){
         std::cout<<"[Main menu] \n" 
@@ -24,7 +23,16 @@ void open_main_menu(){
                                 break;
                         }
                         case 1:{
-                                main_loop(); 
+                                main_loop(scene_creator()); 
+                                exit_cond = true;
+                                break;
+                        }
+                        case 2:{
+                                GameSpace gs;
+                                std::string fname;
+                                std::cout << "Type in a save name";
+                                std::cin >> fname;
+                                main_loop(load_scene(fname));
                                 exit_cond = true;
                                 break;
                         }
@@ -36,7 +44,28 @@ void open_main_menu(){
         }
 }
 
-void open_ingame_menu(){
+void open_ingame_menu(GameSpace* scene){
+        std::cout<<"[Paused]    \n"
+        <<"\t1: Save    ,       \n"
+        <<"\t2: Back            \n"
+        << "[Choice]";
+        
+        outp::Rawmode::disable();
+        outp::Cursor::show();
+
+        ushort choice;
+        std::cin >> choice;
+        switch(choice){
+                case 1:{
+                        std::string fname;
+                        std::cin>>fname;
+                        scene->save(fname);
+                        break;
+                }
+                default: break;
+        }
+        outp::Rawmode::enable();
+        outp::Cursor::hide();
 
 }
 }//namespace

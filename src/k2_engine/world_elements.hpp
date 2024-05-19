@@ -20,6 +20,7 @@ protected:
         Shape shape;
 
 public:
+        Object() : shape(Shape()){}
         Object(const Shape& shape) : shape(shape) {}
         Shape get_shape() const  { return shape;   }
 
@@ -31,6 +32,7 @@ protected:
         k2_math::Vec4<float> velocity; 
 
 public:
+        DynamicObject() : Object(){}
         DynamicObject(const Shape& shape, float tickrate = 0.1) : Object(shape), tickrate(tickrate){}
         virtual void tick(float delta) = 0;
         virtual void write(std::ofstream& os) const = 0;
@@ -40,9 +42,10 @@ public:
 class StaticObject : public Object{
 
 public:
+        StaticObject() : Object(){}
         StaticObject(const Shape& shape) : Object(shape){}
         void write(std::ofstream& os) const ;
-        StaticObject* read(std::ifstream& is);
+        void read(std::ifstream& is);
         
 };
 
@@ -85,10 +88,12 @@ public:
 
 class TestDynamicObject : public DynamicObject{
 public:
+        TestDynamicObject() : Object(), DynamicObject(){}
         TestDynamicObject(const Shape& shape):
                 Object(shape), DynamicObject(shape){}
         void tick(float delta);
         void write(std::ofstream& os) const;
+        void read(std::ifstream& is);
 };
 
 

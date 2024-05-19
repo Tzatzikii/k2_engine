@@ -16,6 +16,11 @@ GameSpace scene_creator(){
         return scene;
 }
 
+GameSpace load_scene(std::string fname){
+        GameSpace scene;
+        scene.load(fname);
+        return scene;
+}
 InputHandler scene_binds(GameSpace& scene){
         InputHandler inputs(scene);
         inputs.bind('w', move_forward);

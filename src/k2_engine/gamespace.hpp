@@ -48,8 +48,8 @@ public:
         void gravitate();
         void tick(float delta);
 
-        void save(const char* fname);
-        void read(const char* fname);
+        void save(const std::string& fname) const;
+        void load(const std::string& fname);
 
         friend std::ofstream& operator<<(std::ofstream& os, const GameSpace& gs);
         friend std::ifstream& operator>>(std::ifstream& is, GameSpace& gs);

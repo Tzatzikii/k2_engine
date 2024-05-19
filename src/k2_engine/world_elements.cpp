@@ -55,14 +55,11 @@ void Camera::read(std::ifstream& is){
 /*-----------------------StaticObject------------------------------*/
 #pragma region
 void StaticObject::write(std::ofstream& os) const{
-        os << std::endl << ".STATICOBJECT" << std::endl;
+        os << std::endl << ".S;" << std::endl;
         os << shape << std::endl;
 }
-StaticObject* StaticObject::read(std::ifstream& is){
-        Shape shape;
+void StaticObject::read(std::ifstream& is){
         is>>shape;
-        StaticObject* obj = new StaticObject(shape);
-        return obj;
 }
 #pragma endregion
 /*-----------------DynamicObject + inheritances-----------------*/
@@ -72,8 +69,14 @@ void TestDynamicObject::tick(float delta){
 }
 
 void TestDynamicObject::write(std::ofstream& os) const{ 
-        os<<".TESTOBJECT"<< std::endl;
+        os<<".T;"<< std::endl << tickrate;;
+        os<<velocity;
         os<<shape << std::endl;
+}
+void TestDynamicObject::read(std::ifstream& is){
+        is>>tickrate;
+        is>>velocity;
+        is>>shape;
 }
 #pragma endregion
 

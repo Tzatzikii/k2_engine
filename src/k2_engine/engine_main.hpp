@@ -68,7 +68,7 @@ inline float get_delta(std::chrono::time_point<T> prev){
  * Eredetileg a start_main hívta
  * 
  */
-void main_loop();
+void main_loop(GameSpace scene);
 
 } // namespace k2
 

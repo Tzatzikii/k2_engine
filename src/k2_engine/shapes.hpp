@@ -8,10 +8,9 @@ class Shape{
 protected:
         std::vector<Triangle> components;
         k2_math::Vec4<float> centre;
-        float opacity; 
-        void calculate_centre();
 
 public:
+        Shape() : components(std::vector<Triangle>()), centre(k2_math::Vec4<float>()){}
         std::vector<Triangle> get_components() const { return components; }
         void transform(k2_math::Mat4<float> transformation_matrix);
 

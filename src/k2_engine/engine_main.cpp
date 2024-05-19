@@ -3,15 +3,13 @@
 namespace k2_engine{
 
 void debug_fn();
-#define VALGRIND
+//#define VALGRIND
 void start_main(){  
 #if defined VALGRIND
         debug_fn();
 #else
-        init_console();
         open_main_menu();
 
-        restore_console();
 #endif
 }
 void init_console(){
@@ -29,23 +27,21 @@ using k2_math::Vec4;
 void debug_fn(){
         GameSpace scene = scene_creator();
         InputHandler inputs = scene_binds(scene);
-        std::ofstream os("TESTSAVE.txt");
-        os << scene;
         GameSpace copy;
-        std::ifstream is("TESTSAVE.txt");
-        is >> copy;
+        scene.save("balls");
+        copy.load("balls");
+        std::ifstream asd("doesntexist");
         Renderer renderer(copy, 80, 60);
-        //renderer.render();
+        renderer.render();
 }
 /**
  * TODO outputbuffert ostream-má alakítani (valahogy xd)
  */
-void main_loop(){
+void main_loop(GameSpace scene){
 
-        GameSpace scene = scene_creator();
+        init_console();
         InputHandler inputs = scene_binds(scene);
         Renderer renderer(scene, 80, 60);
-        std::cout << "\x1b[3m";
 
         auto prev = std::chrono::high_resolution_clock::now(); 
         while(inputs.get_previous() != 'q'){
@@ -57,6 +53,7 @@ void main_loop(){
                 renderer.render();
                 //std::cout<<delta<<std::endl;
         }
+        restore_console();
 }
 
 }
